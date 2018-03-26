@@ -161,9 +161,10 @@ extension VGPlayerDownloadActionWorker: VGPlayerDownloadeURLSessionManagerDelega
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         if let mimeType = response.mimeType {
-            if (mimeType.range(of: "video/") == nil) &&
-                (mimeType.range(of: "audio/") == nil &&
-                    mimeType.range(of: "application") == nil){
+            if ((mimeType.range(of: "video/") == nil)
+                && (mimeType.range(of: "audio/") == nil)
+                && (mimeType.range(of: "binary/") == nil)
+                && (mimeType.range(of: "application") == nil)) {
                 completionHandler(.cancel)
             } else {
                 delegate?.downloadActionWorker(self, didReceive: response)
